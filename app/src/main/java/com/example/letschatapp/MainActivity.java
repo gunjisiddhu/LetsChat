@@ -6,21 +6,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,9 +47,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser()==null){
+            startActivity(new Intent(getApplicationContext(),LoginScreen.class));
+            finish();
+        }
         setValues();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -60,10 +74,22 @@ public class MainActivity extends AppCompatActivity {
         });
         Log.e("data",userDataList.toString());
 
+        /*
+        DateTime dt = new DateTime();
+        String dtStr = dt.toString();
+
+        Log.e("First", dt+"   "+dtStr);
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        DateTime newDt = fmt.parseDateTime(dtStr);
+        Log.e("second",newDt+"  "+dtStr);
+        */
+
+
 
     }
 
     private void setValues() {
+        //firebaseAuth.getInstance().signOut();
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser()==null){
             startActivity(new Intent(getApplicationContext(),LoginScreen.class));
@@ -73,8 +99,9 @@ public class MainActivity extends AppCompatActivity {
         data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
                 UserData userData = snapshot.getValue(UserData.class);
-                textView.setText(userData.getName());
+                textView.setText(userData.getName());}
             }
 
             @Override

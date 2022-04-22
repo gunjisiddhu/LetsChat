@@ -9,12 +9,14 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/mainmenu_recylerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="13"/>
 
     <LinearLayout
+        android:background="#96D3F6"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="30dp"
@@ -24,11 +26,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="16dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Idigo ra budatha"/>
+            android:text="Username"/>
         <ImageView
             android:id="@+id/mainmenu_logout"
             android:layout_marginRight="10dp"

@@ -1,10 +1,14 @@
 package com.example.letschatapp;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +38,17 @@ public class ChatNamesAdapter extends RecyclerView.Adapter<ChatNamesAdapter.MyVi
         UserData user = userData.get(position);
         holder.username.setText(user.getName());
         holder.lastmessage.setText(user.getEmail());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,ChatAcitivity.class);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
